@@ -137,7 +137,7 @@ async function handleCreateRazorPaySubscription(req, res) {
 
 async function handleVerifyOrder(req, res) {
     try {
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+        const { subscription_id, razorpay_payment_id, razorpay_signature } = req.body;
         if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
             return res.status(400).json({
                 success: false,
@@ -145,7 +145,7 @@ async function handleVerifyOrder(req, res) {
             })
         }
 
-        const body = razorpay_order_id + '|' + razorpay_payment_id;
+        const body = razorpay_payment_id + "|" + subscription_id;
 
         const expectedSignature = crypto
             .createHmac('sha256', process.env.RAZOR_PAY_SECRET)
